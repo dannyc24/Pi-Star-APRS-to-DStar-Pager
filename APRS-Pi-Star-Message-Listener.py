@@ -20,7 +20,7 @@ s.connect((APRS_Server, TCP_Port))
 initialRecv = s.recv(1024)
 print initialRecv
 
-initialQ = "user " + CALLSIGN + "-N pass -1 vers N0RJC_Pi-STAR APRS-->D-STAR 0.0.1 filter g/" + CALLSIGN + "/\n"
+initialQ = "user " + CALLSIGN + "-N pass -1 vers N0RJC_Pi-STAR APRS-->D-STAR 0.0.4 filter g/" + CALLSIGN + "*/\n"
 
 print "Sending Intial Message to APRS server"
 print initialQ
@@ -32,10 +32,10 @@ while True:
         data = s.recv(8192)
         if data:
             print "Data: " + data
-            if re.search(r"\w*-..\>.*\,.*\:\:" + CALLSIGN + "-.*\s\s", data):
+            if re.search(r"\w*-.{1,2}\>.*\,.*\:\:" + CALLSIGN + "-.*\s\s", data):
                 print "A Messages is recieved"
                 #parsing message 
-                aprsmessage = re.match("(\w*-..)\>.*\,.*\:\:" + CALLSIGN + "-.*\s\s\:(.*)", data)
+                aprsmessage = re.match("(\w*-.{1,2})\>.*\,.*\:\:" + CALLSIGN + "-.*\s\s\:(.*)", data)
                 
                 aprsSource = aprsmessage.group(1)
                 aprsMessage = aprsmessage.group(2)
